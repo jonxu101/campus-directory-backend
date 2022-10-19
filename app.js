@@ -1,13 +1,13 @@
-const express = require("express");
-const app = express();
-const bodyParser = require("body-parser");
-const bcrypt = require("bcrypt");
-const jwt = require("jsonwebtoken");
-
-// require database connection
 const dbConnect = require("./db/dbConnect");
 const User = require("./db/userModel");
 const auth = require("./auth");
+
+
+const bodyParser = require("body-parser");
+const jwt = require("jsonwebtoken");
+const express = require("express");
+const bcrypt = require("bcrypt");
+const app = express();
 
 // execute database connection
 dbConnect();
@@ -35,44 +35,15 @@ app.get("/", (request, response, next) => {
   next();
 });
 
-// register endpoint
-app.post("/register", (request, response) => {
-  // hash the password
-  bcrypt
-    .hash(request.body.password, 10)
-    .then((hashedPassword) => {
-      // create a new user instance and collect the data
-      const user = new User({
-        email: request.body.email,
-        password: hashedPassword,
-        usertype: request.body.usertype,
-      });
 
-      // save the new user
-      user
-        .save()
-        // return success if the new user is added to the database successfully
-        .then((result) => {
-          response.status(201).send({
-            message: "User Created Successfully",
-            result,
-          });
-        })
-        // catch error if the new user wasn't added successfully to the database
-        .catch((error) => {
-          response.status(500).send({
-            message: "Error creating user",
-            error,
-          });
-        });
-    })
-    // catch error if the password hash isn't successful
-    .catch((e) => {
-      response.status(500).send({
-        message: "Password was not hashed successfully",
-        e,
-      });
-    });
+// free endpoint
+app.get("/free-endpoint", (request, response) => {
+  response.json({ message: "You are free to access me anytime" });
+});
+
+// authentication endpoint
+app.get("/auth-endpoint", auth, (request, response) => {
+  response.send({ message: "You are authorized to access me" });
 });
 
 
@@ -133,14 +104,44 @@ app.post("/login", (request, response) => {
     });
 });
 
-// free endpoint
-app.get("/free-endpoint", (request, response) => {
-  response.json({ message: "You are free to access me anytime" });
-});
+// register endpoint
+app.post("/register", (request, response) => {
+  // hash the password
+  bcrypt
+    .hash(request.body.password, 10)
+    .then((hashedPassword) => {
+      // create a new user instance and collect the data
+      const user = new User({
+        email: request.body.email,
+        password: hashedPassword,
+        usertype: request.body.usertype,
+      });
 
-// authentication endpoint
-app.get("/auth-endpoint", auth, (request, response) => {
-  response.send({ message: "You are authorized to access me" });
+      // save the new user
+      user
+        .save()
+        // return success if the new user is added to the database successfully
+        .then((result) => {
+          response.status(201).send({
+            message: "User Created Successfully",
+            result,
+          });
+        })
+        // catch error if the new user wasn't added successfully to the database
+        .catch((error) => {
+          response.status(500).send({
+            message: "Error creating user",
+            error,
+          });
+        });
+    })
+    // catch error if the password hash isn't successful
+    .catch((e) => {
+      response.status(500).send({
+        message: "Password was not hashed successfully",
+        e,
+      });
+    });
 });
 
 module.exports = app;
