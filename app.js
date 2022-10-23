@@ -118,7 +118,7 @@ app.post("/deleteAttendee", (request, response) => {
 
 });
 
-app.get("/returnEvent", (request, response) => {
+app.get("/returnJoinedEvent", (request, response) => {
 
   Event.find({attendees : request.body.user}).then( (event) => {
     response.status(200).json(event);
@@ -133,7 +133,20 @@ app.get("/returnEvent", (request, response) => {
 
 });
 
+app.get("/returnHostedEvent", (request, response) => {
 
+  Event.find({host_email : request.body.user}).then( (event) => {
+    response.status(200).json(event);
+    }
+  ).catch(
+    (error) => {
+      response.status(400).json({
+        error: error
+      });
+    }
+  );
+
+});
 
 // login endpoint
 app.post("/login", (request, response) => {
