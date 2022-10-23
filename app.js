@@ -1,7 +1,7 @@
 const dbConnect = require("./db/dbConnect");
 const User = require("./db/userModel");
 const auth = require("./auth");
-
+const Event = require("./db/eventModel")
 
 const bodyParser = require("body-parser");
 const jwt = require("jsonwebtoken");
@@ -48,60 +48,48 @@ app.get("/auth-endpoint", auth, (request, response) => {
 
 //CREATE EVENT
 app.post("/createEvent", (request, response) => {
-  // check if email exists
-  User.findOne({ email: request.body.email })
+  const Event = new Event({
+    title: request.body.title,
+    details: request.body.details,
+    host_email: request.body.host_email,
+    attendees: request.body.attendees,
+    location: request.body.location,
+    time: request.body.time
+  });
 
-    // if email exists
-    .then((user) => {
-      // compare the password entered and the hashed password found
-      bcrypt
-        .compare(request.body.password, user.password)
-
-        // if the passwords match
-        .then((passwordCheck) => {
-
-          // check if password matches
-          if(!passwordCheck) {
-            return response.status(400).send({
-              message: "Passwords does not match",
-              error,
-            });
-          }
-
-          //   create JWT token
-          const token = jwt.sign(
-            {
-              userId: user._id,
-              userEmail: user.email,
-            },
-            "RANDOM-TOKEN",
-            { expiresIn: "24h" }
-          );
-
-          //   return success response
-          response.status(200).send({
-            message: "Login Successful",
-            email: user.email,
-            usertype: user.usertype,
-            token,
-          });
-        })
-        // catch error if password do not match
-        .catch((error) => {
-          response.status(400).send({
-            message: "Passwords does not match",
-            error,
-          });
-        });
-    })
-    // catch error if email does not exist
-    .catch((e) => {
-      response.status(404).send({
-        message: "Email not found",
-        e,
+  Event.save().then(() => {
+      res.status(201).json({
+        message: 'Post saved successfully!',
+        result,
       });
-    });
+    }
+  ).catch(
+    (error) => {
+      res.status(400).json({
+        message: "Error creating event",
+        error: error
+      });
+    }
+  );
+
 });
+
+app.post("/returnEvent", (request, response) => {
+
+  Event.find({attendees : request.body.user}).then( (event) => {
+      res.status(200).json(event);
+    }
+  ).catch(
+    (error) => {
+      res.status(400).json({
+        error: error
+      });
+    }
+  );
+
+});
+
+
 
 // login endpoint
 app.post("/login", (request, response) => {
