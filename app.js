@@ -58,7 +58,6 @@ app.post("/createEvent", (request, response) => {
     attendees: request.body.attendees,
     location: request.body.location,
     time: dateTime
-    // time: request.body.time
   });
 
   event.save().then((result) => {
@@ -78,20 +77,36 @@ app.post("/createEvent", (request, response) => {
 
 });
 
-app.post("/returnEvent", (request, response) => {
+app.get("/returnEvent", (request, response) => {
 
   Event.find({attendees : request.body.user}).then( (event) => {
-      res.status(200).json(event);
+      response.status(200).json(event);
     }
   ).catch(
     (error) => {
-      res.status(400).json({
+      response.status(400).json({
         error: error
       });
     }
   );
 
 });
+
+app.get("/returnEventTemp", (request, response) => {
+
+  Event.find().then( (event) => {
+      response.status(200).json(event);
+    }
+  ).catch(
+    (error) => {
+      response.status(400).json({
+        error: error
+      });
+    }
+  );
+
+});
+
 
 
 
