@@ -48,7 +48,7 @@ app.get("/auth-endpoint", auth, (request, response) => {
 
 //CREATE EVENT
 app.post("/createEvent", (request, response) => {
-  const Event = new Event({
+  const event = new Event({
     title: request.body.title,
     details: request.body.details,
     host_email: request.body.host_email,
@@ -57,15 +57,15 @@ app.post("/createEvent", (request, response) => {
     time: request.body.time
   });
 
-  Event.save().then(() => {
-      res.status(201).json({
+  event.save().then(() => {
+      response.status(201).json({
         message: 'Post saved successfully!',
         result,
       });
     }
   ).catch(
     (error) => {
-      res.status(400).json({
+      response.status(400).json({
         message: "Error creating event",
         error: error
       });
