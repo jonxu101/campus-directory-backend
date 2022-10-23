@@ -6,7 +6,7 @@ const EventSchema = new mongoose.Schema({
   title: {
     type: String,
     required: [true, "Please provide a Title!"],
-    unique: false,
+    unique: true
   },
 
   details:{
