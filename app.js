@@ -80,7 +80,32 @@ app.post("/createEvent", (request, response) => {
 
 app.post("/addAttendee", (request, response) => {
 
-  Event.find({attendees : request.body.user}).then( (event) => {
+  // Event.attendees.push(request.body.)
+  Event.updateOne(
+    {_title: request.body.title},
+    {$push: {attendees: request.body.attendee_email}},
+    // done
+  ).then( (event) => {
+    response.status(200).json(event);
+    }
+  ).catch(
+    (error) => {
+      response.status(400).json({
+        error: error
+      });
+    }
+  );
+
+});
+
+app.post("/deleteAttendee", (request, response) => {
+
+  // Event.attendees.push(request.body.)
+  Event.update(
+    {_title: request.body.title},
+    {$pullAll: {attendees: [request.body.attendee_email]}},
+    // done
+  ).then( (event) => {
     response.status(200).json(event);
     }
   ).catch(
