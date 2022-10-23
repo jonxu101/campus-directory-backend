@@ -18,7 +18,7 @@ const EventSchema = new mongoose.Schema({
   host_email: {
     type: String,
     required: [true, "Please provide an Email!"],
-    unique: [false, "Email Exist"],
+    unique: false,
   },
 
   attendees: {
