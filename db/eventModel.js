@@ -9,6 +9,12 @@ const EventSchema = new mongoose.Schema({
     unique: false,
   },
 
+  details:{
+    type: String,
+    required: [true, "Please provide event details!"],
+    unique: false,
+  },
+
   host_email: {
     type: String,
     required: [true, "Please provide an Email!"],
@@ -29,7 +35,7 @@ const EventSchema = new mongoose.Schema({
   //new Date(meet.date).toLocaleString();
   time: {
     type: Date,
-    required: true,
+    required: [true, "Please provide a time!"],
     unique: false, 
   },
 });
