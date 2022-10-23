@@ -48,16 +48,20 @@ app.get("/auth-endpoint", auth, (request, response) => {
 
 //CREATE EVENT
 app.post("/createEvent", (request, response) => {
+
+  const dateTime = "05 October 2011 14:48 UTC";
+
   const event = new Event({
     title: request.body.title,
     details: request.body.details,
     host_email: request.body.host_email,
     attendees: request.body.attendees,
     location: request.body.location,
-    time: request.body.time
+    time: dateTime
+    // time: request.body.time
   });
 
-  event.save().then(() => {
+  event.save().then((result) => {
       response.status(201).json({
         message: 'Post saved successfully!',
         result,
