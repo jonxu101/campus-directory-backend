@@ -78,6 +78,63 @@ app.post("/createEvent", (request, response) => {
 
 });
 
+//DELETE EVENT
+app.post("/deleteEvent", (request, response) => {
+
+  Event.deleteOne(
+    {_title: request.body.title},
+    // {_host_email: request.body.host_email}
+    // function (err, results) {}
+  ).then((result) => {
+      response.status(201).json({
+        message: 'Deleted event successfully!',
+        result,
+      });
+    }
+  ).catch(
+    (error) => {
+      response.status(400).json({
+        message: "Error creating event",
+        error: error
+      });
+    }
+  );
+
+});
+
+//UPDATE EVENT
+app.post("/updateEvent", (request, response) => {
+
+  const dateTime = "05 October 2011 14:48 UTC";
+  Event.updateOne(
+    {title: request.body.title},
+    {$set:{ 
+      details: request.body.details,
+      host_email: request.body.host_email,
+      location: request.body.location,
+      time: dateTime,
+    }
+    },
+    { upsert: true },
+    // {_host_email: request.body.host_email}
+    // function (err, results) {}
+  ).then((result) => {
+      response.status(201).json({
+        message: 'Updated event successfully!',
+        result,
+      });
+    }
+  ).catch(
+    (error) => {
+      response.status(400).json({
+        message: "Error creating event",
+        error: error
+      });
+    }
+  );
+
+});
+
 app.post("/addAttendee", (request, response) => {
 
   // Event.attendees.push(request.body.)
