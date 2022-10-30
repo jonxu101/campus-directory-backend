@@ -82,7 +82,7 @@ app.post("/createEvent", (request, response) => {
 app.post("/deleteEvent", (request, response) => {
 
   Event.deleteOne(
-    {_title: request.body.title},
+    {title: request.body.title},
     // {_host_email: request.body.host_email}
     // function (err, results) {}
   ).then((result) => {
