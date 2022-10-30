@@ -205,6 +205,22 @@ app.get("/returnHostedEvent", (request, response) => {
 
 });
 
+app.get("/returnAllEvents", (request, response) => {
+
+  Event.find({}).then( (event) => {
+    response.status(200).json(event);
+    }
+  ).catch(
+    (error) => {
+      response.status(400).json({
+        error: error
+      });
+    }
+  );
+
+});
+
+
 // login endpoint
 app.post("/login", (request, response) => {
   // check if email exists
