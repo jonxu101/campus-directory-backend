@@ -82,7 +82,7 @@ app.post("/createEvent", (request, response) => {
 app.post("/deleteEvent", (request, response) => {
 
   Event.deleteOne(
-    {_title: request.body.title},
+    {title: request.body.title},
     // {_host_email: request.body.host_email}
     // function (err, results) {}
   ).then((result) => {
@@ -204,6 +204,22 @@ app.get("/returnHostedEvent", (request, response) => {
   );
 
 });
+
+app.get("/returnAllEvents", (request, response) => {
+
+  Event.find({}).then( (event) => {
+    response.status(200).json(event);
+    }
+  ).catch(
+    (error) => {
+      response.status(400).json({
+        error: error
+      });
+    }
+  );
+
+});
+
 
 // login endpoint
 app.post("/login", (request, response) => {
