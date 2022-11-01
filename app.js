@@ -190,10 +190,10 @@ app.get("/returnJoinedEvent", (request, response) => {
 
 });
 
-app.get("/returnHostedEvent", (request, response) => {
+app.post("/returnHostedEvent", (request, response) => {
 
   Event.find({host_email : request.body.user}).then( (event) => {
-    response.status(200).json(event);
+    response.status(208).json(event);
     }
   ).catch(
     (error) => {
