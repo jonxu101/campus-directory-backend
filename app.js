@@ -57,7 +57,8 @@ app.post("/createEvent", (request, response) => {
     host_email: request.body.host_email,
     attendees: request.body.attendees,
     location: request.body.location,
-    time: dateTime
+    start_time: dateTime,
+    end_time: dateTime,
     // time: request.body.time
   });
 
@@ -82,7 +83,7 @@ app.post("/createEvent", (request, response) => {
 app.post("/deleteEvent", (request, response) => {
 
   Event.deleteOne(
-    {title: request.body.title},
+    {_id: request.body.id},
     // {_host_email: request.body.host_email}
     // function (err, results) {}
   ).then((result) => {
@@ -107,12 +108,14 @@ app.post("/updateEvent", (request, response) => {
 
   const dateTime = "05 October 2011 14:48 UTC";
   Event.updateOne(
-    {title: request.body.title},
+    {_id: request.body.id},
     {$set:{ 
+      title: request.body.title,
       details: request.body.details,
       host_email: request.body.host_email,
       location: request.body.location,
-      time: dateTime,
+      start_time: dateTime,
+      end_time: dateTime,
     }
     },
     { upsert: true },
@@ -139,7 +142,7 @@ app.post("/addAttendee", (request, response) => {
 
   // Event.attendees.push(request.body.)
   Event.updateOne(
-    {_title: request.body.title},
+    {_id: request.body.id},
     {$push: {attendees: request.body.attendee_email}},
     // done
   ).then( (event) => {
@@ -159,7 +162,7 @@ app.post("/deleteAttendee", (request, response) => {
 
   // Event.attendees.push(request.body.)
   Event.update(
-    {_title: request.body.title},
+    {_id: request.body.id},
     {$pullAll: {attendees: [request.body.attendee_email]}},
     // done
   ).then( (event) => {

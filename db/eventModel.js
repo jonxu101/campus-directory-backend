@@ -33,7 +33,13 @@ const EventSchema = new mongoose.Schema({
     unique: false
   },
   //new Date(meet.date).toLocaleString();
-  time: {
+  start_time: {
+    type: Date,
+    required: [true, "Please provide a time!"],
+    unique: false, 
+  },
+
+  end_time: {
     type: Date,
     required: [true, "Please provide a time!"],
     unique: false, 
