@@ -35,16 +35,16 @@ const EventSchema = new mongoose.Schema({
   //new Date(meet.date).toLocaleString();
   start_time: {
     type: Date,
-    required: [true, "Please provide a time!"],
+    required: [true, "Please provide a start time!"],
     unique: false, 
   },
 
   end_time: {
     type: Date,
-    required: [true, "Please provide a time!"],
+    required: [true, "Please provide an end time!"],
     unique: false, 
   },
 });
 
 // export UserSchema
-module.exports = mongoose.model.Events || mongoose.model("Events", EventSchema);
+module.exports = mongoose.model("Events", EventSchema);
