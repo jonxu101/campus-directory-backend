@@ -21,7 +21,25 @@ const EventSchema = new mongoose.Schema({
     unique: false,
   },
 
+  is_invite_only:{
+    type: Boolean,
+    required: [true, "Please provide invite only details"],
+    unique: false,
+  },
+
   attendees: {
+    type: [String],
+    default: [],
+    unique: false,
+  },
+
+  maybe: {
+    type: [String],
+    default: [],
+    unique: false,
+  },
+
+  invited: {
     type: [String],
     default: [],
     unique: false,

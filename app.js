@@ -56,6 +56,7 @@ app.post("/createEvent", (request, response) => {
     details: request.body.details,
     host_email: request.body.host_email,
     attendees: request.body.attendees,
+    is_invite_only: request.body.is_invite_only,
     location: request.body.location,
     start_time: dateTime,
     end_time: dateTime,
@@ -113,6 +114,7 @@ app.post("/updateEvent", (request, response) => {
       title: request.body.title,
       details: request.body.details,
       host_email: request.body.host_email,
+      is_invite_only: request.body.is_invite_only,
       location: request.body.location,
       start_time: dateTime,
       end_time: dateTime,
@@ -164,6 +166,86 @@ app.post("/deleteAttendee", (request, response) => {
   Event.update(
     {_id: request.body.id},
     {$pullAll: {attendees: [request.body.attendee_email]}},
+    // done
+  ).then( (event) => {
+    response.status(200).json(event);
+    }
+  ).catch(
+    (error) => {
+      response.status(400).json({
+        error: error
+      });
+    }
+  );
+
+});
+
+app.post("/addMaybe", (request, response) => {
+
+  // Event.attendees.push(request.body.)
+  Event.updateOne(
+    {_id: request.body.id},
+    {$push: {maybe: request.body.attendee_email}},
+    // done
+  ).then( (event) => {
+    response.status(200).json(event);
+    }
+  ).catch(
+    (error) => {
+      response.status(400).json({
+        error: error
+      });
+    }
+  );
+
+});
+
+app.post("/deleteMaybe", (request, response) => {
+
+  // Event.attendees.push(request.body.)
+  Event.update(
+    {_id: request.body.id},
+    {$pullAll: {maybe: [request.body.attendee_email]}},
+    // done
+  ).then( (event) => {
+    response.status(200).json(event);
+    }
+  ).catch(
+    (error) => {
+      response.status(400).json({
+        error: error
+      });
+    }
+  );
+
+});
+
+app.post("/addInvited", (request, response) => {
+
+  // Event.attendees.push(request.body.)
+  Event.updateOne(
+    {_id: request.body.id},
+    {$push: {invited: request.body.attendee_email}},
+    // done
+  ).then( (event) => {
+    response.status(200).json(event);
+    }
+  ).catch(
+    (error) => {
+      response.status(400).json({
+        error: error
+      });
+    }
+  );
+
+});
+
+app.post("/deleteInvited", (request, response) => {
+
+  // Event.attendees.push(request.body.)
+  Event.update(
+    {_id: request.body.id},
+    {$pullAll: {invited: [request.body.attendee_email]}},
     // done
   ).then( (event) => {
     response.status(200).json(event);
