@@ -55,7 +55,6 @@ app.post("/createEvent", (request, response) => {
     title: request.body.title,
     details: request.body.details,
     host_email: request.body.host_email,
-    attendees: request.body.attendees,
     is_invite_only: request.body.is_invite_only,
     location: request.body.location,
     start_time: dateTime,
