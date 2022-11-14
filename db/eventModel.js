@@ -27,6 +27,12 @@ const EventSchema = new mongoose.Schema({
     unique: false,
   },
 
+  max_attendees:{
+    type: Number,
+    required: [true, "Please provide max capacity"],
+    unique: false,
+  },
+
   attendees: {
     type: [String],
     default: [],
@@ -65,4 +71,4 @@ const EventSchema = new mongoose.Schema({
 });
 
 // export UserSchema
-module.exports = mongoose.model("Events", EventSchema);
+module.exports = mongoose.model.Event || mongoose.model("Events", EventSchema);
