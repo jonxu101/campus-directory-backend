@@ -276,6 +276,22 @@ app.get("/returnJoinedEvent", (request, response) => {
 
 });
 
+app.get("/returnInvitedEvent", (request, response) => {
+
+  Event.find({invited : request.body.user}).then( (event) => {
+    response.status(200).json(event);
+    }
+  ).catch(
+    (error) => {
+      response.status(400).json({
+        error: error
+      });
+    }
+  );
+
+});
+
+
 app.post("/returnHostedEvent", (request, response) => {
 
   Event.find({host_email : request.body.user}).then( (event) => {
