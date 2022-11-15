@@ -261,7 +261,7 @@ app.post("/deleteInvited", (request, response) => {
 
 });
 
-app.get("/returnJoinedEvent", (request, response) => {
+app.post("/returnJoinedEvent", (request, response) => {
 
   Event.find({attendees : request.body.user}).then( (event) => {
     response.status(200).json(event);
@@ -276,7 +276,7 @@ app.get("/returnJoinedEvent", (request, response) => {
 
 });
 
-app.get("/returnInvitedEvent", (request, response) => {
+app.post("/returnInvitedEvent", (request, response) => {
 
   Event.find({invited : request.body.user}).then( (event) => {
     response.status(200).json(event);
@@ -291,6 +291,20 @@ app.get("/returnInvitedEvent", (request, response) => {
 
 });
 
+app.post("/returnOpenEvent", (request, response) => {
+
+  Event.find({is_invite_only : false}).then( (event) => {
+    response.status(208).json(event);
+    }
+  ).catch(
+    (error) => {
+      response.status(400).json({
+        error: error
+      });
+    }
+  );
+
+});
 
 app.post("/returnHostedEvent", (request, response) => {
 
@@ -307,7 +321,7 @@ app.post("/returnHostedEvent", (request, response) => {
 
 });
 
-app.get("/returnAllEvents", (request, response) => {
+app.post("/returnAllEvents", (request, response) => {
 
   Event.find({}).then( (event) => {
     response.status(200).json(event);
