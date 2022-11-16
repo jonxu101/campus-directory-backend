@@ -276,6 +276,21 @@ app.post("/returnJoinedEvent", (request, response) => {
 
 });
 
+app.post("/returnMaybeEvent", (request, response) => {
+
+  Event.find({maybe : request.body.user}).then( (event) => {
+    response.status(200).json(event);
+    }
+  ).catch(
+    (error) => {
+      response.status(400).json({
+        error: error
+      });
+    }
+  );
+
+});
+
 app.post("/returnInvitedEvent", (request, response) => {
 
   Event.find({invited : request.body.user}).then( (event) => {
