@@ -49,7 +49,7 @@ app.get("/auth-endpoint", auth, (request, response) => {
 //CREATE EVENT
 app.post("/createEvent", (request, response) => {
 
-  const dateTime = "05 October 2011 14:48 UTC";
+  // const dateTime = "05 October 2011 14:48 UTC";
 
   const event = new Event({
     title: request.body.title,
@@ -58,9 +58,8 @@ app.post("/createEvent", (request, response) => {
     is_invite_only: request.body.is_invite_only,
     max_attendees: request.body.max_attendees,
     location: request.body.location,
-    start_time: dateTime,
-    end_time: dateTime,
-    // time: request.body.time
+    start_time: request.body.start_time,
+    end_time: request.body.end_time
   });
 
   event.save().then((result) => {
@@ -106,8 +105,6 @@ app.post("/deleteEvent", (request, response) => {
 
 //UPDATE EVENT
 app.post("/updateEvent", (request, response) => {
-
-  const dateTime = "05 October 2011 14:48 UTC";
   Event.updateOne(
     {_id: request.body.id},
     {$set:{ 
@@ -117,8 +114,8 @@ app.post("/updateEvent", (request, response) => {
       is_invite_only: request.body.is_invite_only,
       max_attendees: request.body.max_attendees,
       location: request.body.location,
-      start_time: dateTime,
-      end_time: dateTime,
+      start_time: request.body.start_time,
+      end_time: request.body.end_time,
     }
     },
     { upsert: true },
