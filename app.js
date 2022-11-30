@@ -58,8 +58,8 @@ app.post("/createEvent", (request, response) => {
     is_invite_only: request.body.is_invite_only,
     max_attendees: request.body.max_attendees,
     location: request.body.location,
-    start_time: dateTime,
-    end_time: dateTime,
+    start_time: request.body.start_time,
+    end_time: request.body.end_time,
     // time: request.body.time
   });
 
@@ -117,9 +117,9 @@ app.post("/updateEvent", (request, response) => {
       is_invite_only: request.body.is_invite_only,
       max_attendees: request.body.max_attendees,
       location: request.body.location,
-      start_time: dateTime,
-      end_time: dateTime,
-    }
+      start_time: request.body.start_time,
+      end_time: request.body.end_time,
+      }
     },
     { upsert: true },
     // {_host_email: request.body.host_email}
